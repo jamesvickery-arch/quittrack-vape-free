@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173c35">
+<meta name="description" content="QuitTrack Vape-Free — track your quit journey, cravings, health milestones and savings.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>QuitTrack Vape-Free</title>
+<style>
+:root{color-scheme:light;--ink:#173c35;--green:#258567;--pale:#e3f3e9;--bg:#f4f7f5;--muted:#63736d;--line:#dce5df}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#1b2924;font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header{background:var(--ink);color:white;padding:calc(18px + env(safe-area-inset-top)) 18px 20px}
+h1{font-size:25px;margin:0 0 3px}header p{margin:0;color:#c7e6d6;font-size:14px}
+main{max-width:720px;margin:auto;padding:16px 14px 90px}
+nav{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:0 0 16px}
+nav button{border:0;border-radius:12px;padding:10px 3px;background:#e7eeea;color:#35534a;font-size:12px}
+nav button.active{background:var(--ink);color:white}
+.panel{display:none}.panel.active{display:block}
+.card{background:white;border:1px solid var(--line);border-radius:18px;padding:16px;margin:0 0 13px;box-shadow:0 2px 8px #193d3510}
+.hero{background:var(--ink);color:white;border:0}.hero small{color:#c7e6d6}
+.timer{font-size:32px;font-weight:750;margin:5px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#285148;border-radius:13px;padding:12px}.stat strong{display:block;font-size:22px}
+h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:0 0 5px}
+p{margin:6px 0}.muted,small{color:var(--muted)}
+label{display:block;font-size:13px;font-weight:650;margin:12px 0 5px}
+input,select{width:100%;padding:12px;border:1px solid #cbd8d0;border-radius:10px;font:inherit;background:white}
+button.primary,.action{background:var(--green);color:white;border:0;border-radius:11px;padding:12px 15px;font:inherit;font-weight:650;cursor:pointer}
+button.secondary{background:#e8f0eb;color:var(--ink);border:0;border-radius:11px;padding:11px 13px;font:inherit}
+button:focus,input:focus,select:focus{outline:3px solid #8bc9a8;outline-offset:2px}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.row>*{flex:1}
+.progress{height:9px;background:#e5ece7;border-radius:20px;overflow:hidden;margin:10px 0}.progress span{display:block;height:100%;background:var(--green)}
+.milestone{border-left:3px solid #b7d9c4;padding:2px 0 15px 13px;margin-left:7px}.milestone.done{border-color:var(--green)}
+.milestone b{display:block}.tag{display:inline-block;background:var(--pale);color:#176749;border-radius:20px;padding:3px 8px;font-size:12px}
+ul{padding-left:20px}li{margin:7px 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:12px}
+@media(min-width:600px){main{padding-top:22px}nav button{font-size:14px}}
+</style>
+</head>
+<body>
+<header><h1>QuitTrack Vape-Free</h1><p>Break the habit. Beat the cravings. Get your freedom back.</p></header>
+<main>
+<nav aria-label="Main navigation">
+<button class="active" data-tab="home">Home</button><button data-tab="health">Health</button><button data-tab="cravings">Cravings</button><button data-tab="savings">Savings</button><button data-tab="settings">Settings</button>
+</nav>
+<section id="home" class="panel active">
+<div class="card hero">
+<small id="timerLabel">YOUR QUIT COUNTDOWN</small><div class="timer" id="timer">Set your quit date</div>
+<div class="stats"><div class="stat"><small>Estimated saved</small><strong id="saved">$0</strong></div><div class="stat"><small>Weekly savings</small><strong id="weekly">$70</strong></div></div>
+<p id="homeSub"></p>
+</div>
+<div class="card"><h2>Next health stage</h2><span class="tag" id="stageTag">Preparing to quit</span><h3 id="stageTitle">Get ready</h3><p id="stageText">Choose a quit date and prepare your plan.</p></div>
+<div class="card"><h2>Your reason for quitting</h2><p id="reasonText">Health, fitness and family</p><button class="secondary" onclick="showTab('settings')">Edit settings</button></div>
+</section>
+<section id="health" class="panel">
+<div class="card"><h2>Your recovery timeline</h2><p class="muted">Nicotine withdrawal varies. These are typical stages, not guaranteed deadlines for specific organ changes.</p><div id="timeline"></div></div>
+<div class="card"><h3>Longer-term benefits</h3><ul><li>Stop ongoing exposure to vape aerosol.</li><li>Work towards freedom from nicotine dependence.</li><li>Build healthier routines and support your long-term health.</li></ul><p class="muted">Research into exact long-term recovery timelines after vaping is still developing.</p></div>
+</section>
+<section id="cravings" class="panel">
+<div class="card"><h2>Craving coach</h2><p>Cravings can feel intense, but they usually pass. Work through these four steps.</p><div class="progress"><span id="urgeProgress" style="width:0%"></span></div><span class="tag" id="urgeCount">0 cravings beaten</span><h3 id="urgeTitle" style="margin-top:15px">When an urge hits</h3><p id="urgeText">Start the exercise and focus on the next five minutes.</p><div class="row"><button class="primary" id="urgeNext">Start exercise</button><button class="secondary" id="urgeReset">Reset</button></div></div>
+<div class="card"><h3>My triggers</h3><p class="muted">Select the situations where you're most likely to vape.</p><div id="triggers"></div><p id="triggerSummary" class="muted"></p></div>
+<div class="card"><h3>Withdrawal symptoms</h3><p>Possible symptoms include cravings, irritability, anxiety, restlessness, trouble concentrating, sleep changes, headaches and increased appetite.</p><p class="muted">Symptoms are often strongest in the first week and commonly ease over the following weeks. A GP or pharmacist can discuss support options.</p></div>
+</section>
+<section id="savings" class="panel">
+<div class="card"><h2>Your money back</h2><p class="muted">Estimated savings based on what you would otherwise spend.</p><h1 id="bigSaved" style="font-size:34px">$0</h1><div class="stats"><div class="stat" style="background:#edf4ef;color:#173c35"><small>Monthly potential</small><strong id="monthly">$303</strong></div><div class="stat" style="background:#edf4ef;color:#173c35"><small>Yearly potential</small><strong id="yearly">$3,640</strong></div></div><p id="savedDays"></p></div>
+</section>
+<section id="settings" class="panel">
+<div class="card"><h2>Your quit settings</h2>
+<label for="quitDate">Quit date</label><input id="quitDate" type="date">
+<label for="weeklySpend">Weekly vape spending (AUD)</label><input id="weeklySpend" type="number" min="0" step="1" value="70">
+<label for="deviceCost">Approximate cost per disposable (AUD)</label><input id="deviceCost" type="number" min="0" step="1" value="35">
+<label for="nicotine">Nicotine strength</label><select id="nicotine"><option>20 mg/mL</option><option>10 mg/mL</option><option>50 mg/mL</option><option>0 mg/mL</option><option>Unknown</option></select>
+<label for="reason">Main reason for quitting</label><select id="reason"><option>Health, fitness and family</option><option>Saving money</option><option>Freedom from nicotine</option><option>Breathing and exercise</option></select>
+<button class="primary" id="saveSettings" style="width:100%;margin-top:16px">Save my settings</button><p class="muted" id="saveMessage" role="status"></p>
+</div>
+<div class="card"><h3>Australian quit support</h3><p><b>Quitline: 13 7848</b></p><p>Free support for quitting smoking and vaping.</p><p><a href="https://www.quit.org.au/" target="_blank" rel="noopener">Quit.org.au</a></p><p><a href="https://www.health.gov.au/vaping/facts" target="_blank" rel="noopener">Australian Government vaping information</a></p></div>
+</section>
+<footer>QuitTrack is an educational tracker, not medical advice. Your progress is stored on this device.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const defaults={quitDate:"",weeklySpend:70,deviceCost:35,nicotine:"20 mg/mL",reason:"Health, fitness and family",triggers:[],beaten:0};
+let data={...defaults,...JSON.parse(localStorage.getItem("quittrack")||"{}")};
+let urgeStep=-1;
+const stages=[
+["First few hours","Breaking the nicotine cycle","Cravings can begin within hours as your body adjusts to less nicotine.","Keep water nearby and change your usual vaping routine."],
+["Days 1–3","Prepare for withdrawal","Cravings, irritability, restlessness, headaches or difficulty concentrating may appear.","Plan short walks, regular meals and early nights."],
+["Days 4–7","Get through the first week","Withdrawal is often strongest during the first week. A difficult day does not mean you are failing.","Use the four-step craving coach when an urge hits."],
+["Weeks 2–4","Build your new routine","Withdrawal symptoms commonly ease over the following weeks, although some cravings can last longer.","Notice your triggers and reward your progress."],
+["Following months","Keep building healthier habits","Staying vape-free avoids continued exposure to vape aerosol and nicotine.","Keep your vape-free routines and support network in place."]
+];
+function save(){localStorage.setItem("quittrack",JSON.stringify(data));}
+function money(n){return new Intl.NumberFormat("en-AU",{style:"currency",currency:"AUD",maximumFractionDigits:2}).format(n);}
+function elapsed(){return data.quitDate?Math.max(0,Date.now()-new Date(data.quitDate+"T00:00:00").getTime()):0;}
+function render(){
+ const e=elapsed(),started=!!data.quitDate&&e>=0,days=Math.floor(e/86400000),weeks=Number(data.weeklySpend)||0,saved=started?e/86400000*weeks/7:0;
+ $("timerLabel").textContent=started?"YOUR VAPE-FREE STREAK":"YOUR QUIT COUNTDOWN";
+ $("timer").textContent=!data.quitDate?"Set your quit date":started?`${days} days, ${Math.floor(e/3600000)%24} hours`:`${Math.ceil(-e/86400000)} days to go`;
+ $("saved").textContent=money(saved);$("weekly").textContent=money(weeks);$("homeSub").textContent=started?"Every hour counts. Keep going.":"Prepare now. Your timer starts on your quit date.";
+ $("reasonText").textContent=data.reason;$("bigSaved").textContent=money(saved);$("monthly").textContent=money(weeks*52/12);$("yearly").textContent=money(weeks*52);$("savedDays").textContent=started?`Estimated savings over ${days} vape-free days.`:"Your savings start accumulating on your quit date.";
+ const idx=!started?-1:days<1?0:days<3?1:days<7?2:days<28?3:4;
+ $("stageTag").textContent=idx<0?"Preparing to quit":stages[idx][0];$("stageTitle").textContent=idx<0?"Get ready":stages[idx][1];$("stageText").textContent=idx<0?"Remove spare vapes, identify triggers and line up support.":stages[idx][2]+" "+stages[idx][3];
+ $("timeline").innerHTML=stages.map((s,i)=>`<div class="milestone ${idx>=i?"done":""}"><small>${s[0]}</small><b>${s[1]}</b><p>${s[2]}</p><p class="muted">${s[3]}</p>${idx>=i?'<span class="tag">Stage reached</span>':''}</div>`).join("");
+ $("urgeCount").textContent=`${data.beaten} cravings beaten`;renderTriggers();
+ $("quitDate").value=data.quitDate;$("weeklySpend").value=data.weeklySpend;$("deviceCost").value=data.deviceCost;$("nicotine").value=data.nicotine;$("reason").value=data.reason;
+}
+function renderTriggers(){const items=["Driving","After meals","Coffee or energy drinks","Stress or frustration","Boredom","Alcohol or socialising","Waking up","Before bed"];$("triggers").innerHTML=items.map(t=>`<label style="font-weight:400"><input type="checkbox" style="width:auto;margin-right:8px" value="${t}" ${data.triggers.includes(t)?"checked":""}>${t}</label>`).join("");$("triggers").querySelectorAll("input").forEach(el=>el.addEventListener("change",()=>{data.triggers=[...$("triggers").querySelectorAll("input:checked")].map(x=>x.value);save();$("triggerSummary").textContent=data.triggers.length?"Selected: "+data.triggers.join(", "):"No triggers selected."; }));$("triggerSummary").textContent=data.triggers.length?"Selected: "+data.triggers.join(", "):"No triggers selected.";}
+function showTab(name){document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===name));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+$("saveSettings").addEventListener("click",()=>{data.quitDate=$("quitDate").value;data.weeklySpend=Math.max(0,Number($("weeklySpend").value)||0);data.deviceCost=Math.max(0,Number($("deviceCost").value)||0);data.nicotine=$("nicotine").value;data.reason=$("reason").value;save();render();$("saveMessage").textContent="Settings saved on this device.";});
+const steps=[["Delay for five minutes","Set a five-minute timer. You only need to get through the next five minutes."],["Take three slow breaths","Breathe in slowly and breathe out gently. Relax your shoulders."],["Drink some water","Sip cold water. Keep your hands and mouth occupied without reaching for your vape."],["Change what you're doing","Take a short walk, chew sugar-free gum, shower or message someone. Move away from your usual vaping spot."]];
+function setUrge(){if(urgeStep<0){urgeStep=0;$("urgeNext").textContent="Next step";}else if(urgeStep<3){urgeStep++;$("urgeNext").textContent="Next step";}else{data.beaten++;save();urgeStep=-1;$("urgeNext").textContent="Start exercise";}if(urgeStep<0){$("urgeTitle").textContent="Good work. One urge at a time.";$("urgeText").textContent="You got through that exercise. Keep going.";$("urgeProgress").style.width="100%";}else{$("urgeTitle").textContent=steps[urgeStep][0];$("urgeText").textContent=steps[urgeStep][1];$("urgeProgress").style.width=((urgeStep+1)*25)+"%";}render();}
+$("urgeNext").addEventListener("click",setUrge);$("urgeReset").addEventListener("click",()=>{urgeStep=-1;$("urgeTitle").textContent="When an urge hits";$("urgeText").textContent="Start the exercise and focus on the next five minutes.";$("urgeNext").textContent="Start exercise";$("urgeProgress").style.width="0%";});
+render();
+if("serviceWorker" in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("./sw.js").catch(()=>{});
+</script>
+</body></html>
